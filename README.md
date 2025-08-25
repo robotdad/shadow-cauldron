@@ -1,457 +1,199 @@
-# 🚀 AI Code Project Template
+# Shadow Cauldron - AI Experimentation Platform
 
-> **Transform your ideas into reality 10x faster—while keeping your unique creative vision.**
+## Purpose
 
-This isn't just another project template. It's a complete AI-first development environment that amplifies your capabilities while preserving what makes your work uniquely yours. It is currently configured to work with Claude Code and Gemini CLI.
+Shadow Cauldron is a modular AI experimentation platform that enables parallel testing and comparison of different AI providers and models. Built following the "bricks and studs" philosophy, it provides a structured way to design, execute, and analyze AI experiments.
 
-## ✨ What if you could...
+## Architecture
 
-- 🔔 **Never break flow** with desktop notifications when AI needs input
-- ✅ **Stop thinking about quality** with automated checks on every change
-- 🧠 **Code your way** with philosophy-driven development built-in
-- 📚 **Feed AI perfectly** with smart context management tools
-- ⚡ **Start building in 5 minutes** instead of setting up for hours
+This application is built as a collection of self-contained "bricks" that communicate through well-defined contracts:
 
-**You can. Starting right now.**
-
-## 🎬 See It In Action
-
-```bash
-# 1. Create from template
-Click the "Use this template" button on GitHub to create a new repository.
-
-# 2. Clone your new repository
-git clone https://github.com/[your-username]/[your-new-repo-name]
-cd [your-new-repo-name]
-
-# 3. In your AI assistant, run:
-/prime
-
-# 4. Start building!
-/ultrathink-task Help me build a web app that [your amazing idea here]
+```
+shadow-cauldron/
+├── app/                        # Main application
+│   ├── config/                # Configuration brick
+│   ├── core/                  # Auth, middleware, logging brick
+│   ├── api/                   # API routes brick
+│   ├── models/                # Database models brick
+│   ├── providers/             # AI provider plugin system brick
+│   ├── experiments/           # Experiment engine brick
+│   └── storage/               # File & data management brick
+├── tests/                     # Test suite
+├── docker/                    # Container configurations
+└── alembic/                   # Database migrations
 ```
 
-**That's it.** You're now developing at AI velocity with human creativity.
+## Modular Design Principles
 
----
+Each brick follows these principles:
 
-## Explore the Interactive Deep Wiki
+1. **Single Responsibility**: Each brick has one clear purpose
+2. **Contract-Based**: Public interfaces defined in `__init__.py`
+3. **Self-Contained**: All code, tests, and dependencies within brick folder
+4. **Regeneratable**: Can be rebuilt from specification without breaking connections
+5. **Minimal Dependencies**: Bricks connect only through public contracts
 
-Want to dive deeper? Check out this auto-generated interactive documentation site!
+## Public Contracts
 
-### [**📖 Visit the Deep Wiki → https://deepwiki.com/bkrabach/ai-code-project-template**](https://deepwiki.com/bkrabach/ai-code-project-template)
+### Config Brick
+```python
+from app.config import settings, Settings, DatabaseConfig
+```
 
----
+### Core Brick  
+```python
+from app.core import setup_logging, setup_middleware, get_current_user, AuthenticatedUser
+```
 
-## 🎯 Who This Is For
+### API Brick
+```python
+from app.api import router
+```
 
-### 🎨 **Product Managers & Designers**
+### Models Brick
+```python
+from app.models import Base, SessionLocal, get_db, User
+```
 
-Finally, you can prototype as fast as you can imagine. Natural language to working code in minutes.
+### Providers Brick
+```python
+from app.providers import ProviderRegistry, BaseProvider, get_provider, list_providers
+```
 
-### 👩‍💻 **Engineers**
+### Experiments Brick
+```python
+from app.experiments import ExperimentEngine, Experiment, ExperimentRun, create_experiment, run_experiment
+```
 
-Stop context switching. Automated quality checks and smart notifications keep you in deep work.
+### Storage Brick
+```python
+from app.storage import StorageManager, upload_file, get_file, delete_file
+```
 
-### 🏗️ **Architects**
-
-Build platforms, not just projects. Your expertise becomes your team's capability.
-
-### 🚀 **Startups & Innovators**
-
-Move at the speed of thought. Test ideas in hours, not weeks.
-
-## 💎 What Makes This Special
-
-### 🔔 **Desktop Notifications That Keep You In Flow** [Claude Code only]
-
-Never check your terminal again. Get native notifications when:
-
-- Claude Code needs permission to proceed
-- Tasks complete successfully
-- Errors need your attention
-
-Works seamlessly on Mac, Linux, Windows, and WSL.
-
-### 🤖 **Multi-Agent Problem Solving**
-
-The `/ultrathink-task` command orchestrates specialized AI agents:
-
-- **Architect Agent**: Designs high-level approach
-- **Research Agent**: Gathers knowledge and best practices
-- **Coder Agent**: Implements solutions
-- **Tester Agent**: Validates and verifies
-
-Complex problems solved systematically, every time.
-
-### ✅ **Automated Quality, Zero Friction** [Claude Code only]
-
-Every code change triggers quality checks automatically:
-
-- Formatting fixed
-- Linting applied
-- Type checking run
-- Tests executed
-
-You focus on creating. Quality happens automatically.
-
-### 🧠 **Philosophy-Driven Development**
-
-Your development principles embedded in every interaction:
-
-- **Simplicity First**: Clean, maintainable code by default
-- **Human-Centric**: AI amplifies, never replaces your creativity
-- **Pragmatic Choices**: Real-world solutions, not academic exercises
-
-### 📚 **Smart Context Management**
-
-Feed AI the right information at the right time:
-
-- `ai_context/` - Store persistent reference docs
-- `ai_working/` - Workspace for AI planning and iteration
-- Auto-generate project documentation
-- Fetch external library docs on demand
-
-### 🛠️ **Production-Ready Setup**
-
-- Python/TypeScript pre-configured with modern tools
-- Recursive Make system for monorepos
-- Git-ignored temp spaces for experimentation
-- Cross-platform compatibility guaranteed
-
-## 📦 Complete Feature List
-
-### **AI Amplification**
-
-- ✅ `/ultrathink-task` - Multi-agent orchestration for complex problems
-- ✅ `/prime` - Philosophy-aligned environment setup
-- ✅ `/test-webapp-ui` - Automated UI testing with browser control
-- ✅ MCP Servers - Extended capabilities (docs lookup, browser automation)
-- ✅ Custom command framework - Build your own workflows
-
-### **Developer Experience**
-
-- ✅ Desktop notifications - Stay in flow (all platforms)
-- ✅ Auto quality checks - Format, lint, type-check automatically
-- ✅ Smart Make system - Works with monorepos
-- ✅ Pre-configured permissions - Security with productivity
-- ✅ Philosophy documents - Guide AI to code your way
-
-### **Context & Workspace**
-
-- ✅ AI context tools - Generate and manage documentation
-- ✅ Git collector - Fetch external library docs
-- ✅ Working spaces - Persistent and temporary AI workspaces
-- ✅ File collectors - Smart project documentation generation
-
-## 🚀 Quick Start Guide
+## Getting Started
 
 ### Prerequisites
 
-- An AI assistant with CLI capabilities:
-  - [Claude Code](https://claude.ai/code)
-  - [Gemini CLI](https://developers.google.com/gemini/cli)
-- Python 3.11+ or Node.js 18+
-- Git
+- Python 3.11+
+- PostgreSQL (for production) or SQLite (for development)
+- uv (Python package manager)
 
-### 1. Create Your Project
-
-1.  Click the **Use this template** button on the GitHub repository page.
-2.  Give your new repository a name and create it.
-3.  Clone your new repository to your local machine:
+### Installation
 
 ```bash
-git clone https://github.com/[your-username]/[your-new-repo-name].git
-cd [your-new-repo-name]
+# Clone the repository
+git clone <repository-url>
+cd shadow-cauldron
+
+# Install dependencies
+make install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your configuration
+
+# Run database migrations
+make migrate
+
+# Start development server
+make dev
 ```
 
-### 2. First AI Assistant Session
+### Environment Variables
 
-```
-# In your AI assistant, use the command:
-/prime
+Required environment variables (prefix with `SC_`):
 
-# This will:
-# - Install all dependencies
-# - Activate your environment
-# - Load philosophy documents
-# - Run initial checks
-# - Confirm everything works
-```
+- `SC_SECRET_KEY`: Secret key for JWT tokens
+- `SC_DATABASE_URL`: Database connection URL
+- `SC_OPENAI_API_KEY`: OpenAI API key (optional)
+- `SC_ANTHROPIC_API_KEY`: Anthropic API key (optional)
 
-### 3. Try Your First Task
-
-```
-/ultrathink-task Create a simple web API that:
-- Has a health check endpoint
-- Stores data in memory
-- Returns JSON responses
-- Includes proper error handling
-- Has tests
-
-Follow our philosophy of simplicity and pragmatism.
-```
-
-Watch as multiple AI agents collaborate to build your API with tests, error handling, and documentation.
-
-### 4. Experience the Flow
-
-Make any code change and watch:
-
-- 🔔 Desktop notification when complete
-- ✅ Automatic quality checks run
-- 📝 Clear feedback in your terminal
-- 🎯 Stay focused on your next idea
-
-## 📖 User Guides
-
-### 🎨 For Product Managers
-
-**Your New Superpower: Prototype at the Speed of Thought**
-
-```
-/ultrathink-task I need a dashboard that shows:
-- User growth over time with a nice chart
-- Current active users in real-time
-- Revenue metrics with month-over-month change
-- Mobile responsive design
-- Export to PDF functionality
-
-Make it look professional but keep it simple.
-```
-
-**What Happens Next:**
-
-1. Architect designs the component structure
-2. Research finds best charting libraries
-3. Coder implements with your requirements
-4. Tester ensures it all works
-5. You get a working dashboard in minutes
-
-**Pro Tips:**
-
-- Drop mockups in `ai_working/` for reference
-- Use `/test-webapp-ui` to see it in action
-- Iterate with natural language: "Make the charts bigger"
-
-### 👩‍💻 For Engineers
-
-**Your New Reality: Deep Work Without Interruptions**
+### Development
 
 ```bash
-# Set up context for your feature
-echo "API Schema: ..." > ai_context/api-spec.md
-echo "Database Models: ..." > ai_context/models.md
+# Run all checks (lint, format, type check)
+make check
 
-# Let AI help with implementation
-/ultrathink-task Implement the user authentication system based on:
-@ai_context/api-spec.md
-@ai_context/models.md
+# Run tests
+make test
 
-Use JWT tokens, include refresh logic, and add rate limiting.
+# Start development server with hot reload
+make dev
+
+# Create database migration
+make revision MSG="Add new table"
+
+# Apply migrations
+make migrate
 ```
 
-**Automation That Backs You Up:**
-
-- Every save triggers quality checks
-- Desktop notifications for important events
-- Philosophy guides ensure consistent code style
-- Context persistence across sessions
-
-**Level Up Your Workflow:**
-
-1. Create custom commands for repetitive tasks
-2. Add project-specific hooks for your stack
-3. Share configs with your team via Git
-
-### 🏗️ For Architects
-
-**Your New Platform: Scalable AI-Assisted Development**
+### Docker
 
 ```bash
-# Create team-wide commands
-# For Claude Code:
-cat > .claude/commands/create-microservice.md << 'EOF'
-## Usage
-`/create-microservice <service-name>`
+# Build and run with Docker
+make docker-run
 
-## Process
-1. Create service directory structure
-2. Set up Docker configuration
-3. Create base API with health checks
-4. Set up testing framework
-5. Add to docker-compose
-6. Create README with setup instructions
-EOF
-
-# For Gemini CLI:
-cat > .gemini/commands/create-microservice.toml << 'EOF'
-description = "Create a new microservice"
-prompt = """
-## Usage
-`/create-microservice <service-name>`
-
-## Process
-1. Create service directory structure
-2. Set up Docker configuration
-3. Create base API with health checks
-4. Set up testing framework
-5. Add to docker-compose
-6. Create README with setup instructions
-"""
-EOF
-
-# Share with your team
-git add .claude/ .gemini/
-git commit -m "Add team microservice generator"
-git push
+# Development with Docker Compose
+make docker-dev
 ```
 
-**Build Your Platform:**
+## API Endpoints
 
-- Encode architectural decisions in commands
-- Automate compliance and standards
-- Share expertise through configuration
-- Scale your impact across teams
+- `GET /health` - Health check
+- `GET /api/v1/status` - API status
+- `GET /api/v1/protected` - Protected endpoint (requires authentication)
+- `GET /api/v1/experiments` - List experiments
+- `GET /api/v1/providers` - List AI providers
 
-## 🧠 The Philosophy
+## Key Features
 
-This template embodies a philosophy of **"Human Creativity, AI Velocity"**:
+### Multi-Provider Support
+- Plugin-based AI provider system
+- Support for OpenAI, Anthropic, and custom providers
+- Unified interface for all providers
 
-### Core Principles
+### Parallel Experimentation
+- Run experiments across multiple providers simultaneously
+- Compare results, performance, and costs
+- Structured experiment configuration
 
-1. **You Are The Visionary**
+### Storage Management
+- File upload and management
+- Experiment data persistence
+- Result archiving and retrieval
 
-   - AI handles implementation details
-   - You focus on what to build, not how
-   - Your creativity remains uniquely yours
+### Authentication & Security
+- JWT-based authentication
+- Role-based access control
+- Secure API key management
 
-2. **Philosophy Over Process**
+## Extension Points
 
-   - Principles guide every decision
-   - Simplicity beats complexity
-   - Pragmatism over perfection
+To add new functionality:
 
-3. **Flow State Is Sacred**
+1. **New Provider**: Implement `BaseProvider` in `app/providers/`
+2. **New API Routes**: Add routes in `app/api/routes.py`
+3. **New Models**: Add SQLAlchemy models in `app/models/`
+4. **New Storage Backend**: Extend `StorageManager` in `app/storage/`
 
-   - No unnecessary interruptions
-   - Automation handles the mundane
-   - Notifications only when essential
+## Testing
 
-4. **Built To Share**
-   - Your setup helps your team
-   - Knowledge embedded in tools
-   - Success patterns spread naturally
+The project includes comprehensive testing at multiple levels:
 
-Read more in [Philosophy Deep Dive](.ai/docs/philosophy.md)
+- **Unit Tests**: Test individual brick functionality
+- **Integration Tests**: Test brick interactions
+- **End-to-End Tests**: Test complete user workflows
 
-## 🎯 Real-World Usage Patterns
+## Contributing
 
-### Starting a New Feature
+When modifying the codebase:
 
-```bash
-# 1. Set up context
-mkdir -p ai_working/feature-x
-echo "Feature requirements..." > ai_working/feature-x/spec.md
+1. Each brick should remain self-contained
+2. Changes to public contracts require updating dependent bricks
+3. Prefer regenerating entire bricks over line-by-line edits
+4. Add tests for new functionality
+5. Update documentation for contract changes
 
-# 2. Prime your environment
-/prime
+## License
 
-# 3. Build with guidance
-/ultrathink-task Implement feature X based on @ai_working/feature-x/spec.md
-```
-
-### Debugging Complex Issues
-
-```bash
-# 1. Capture the problem
-echo "Error details..." > ai_working/tmp/debug-notes.md
-
-# 2. Analyze systematically
-/ultrathink-task Debug this issue:
-- Error: [paste error]
-- Context: @ai_working/tmp/debug-notes.md
-- Check our patterns in @ai_context/IMPLEMENTATION_PHILOSOPHY.md
-```
-
-### Building UI Components
-
-```bash
-# 1. Describe what you want
-/ultrathink-task Create a data table component that:
-- Handles large datasets efficiently
-- Has sorting and filtering
-- Exports to CSV
-- Looks good on mobile
-
-# 2. Test it immediately
-/test-webapp-ui
-
-# 3. Iterate quickly
-Actually, add pagination and make the rows clickable
-```
-
-## 🔧 Customization
-
-### Add Your Philosophy
-
-1. Edit `ai_context/IMPLEMENTATION_PHILOSOPHY.md`
-2. Add domain-specific principles
-3. Include coding standards
-4. Document decision patterns
-
-### Create Custom Commands
-
-- Create `.claude/commands/your-command.md` for Claude Code
-  - https://docs.anthropic.com/en/docs/claude-code/slash-commands#project-commands
-- Create `.gemini/commands/your-command.toml` for Gemini
-  - https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/commands.md#custom-commands
-
-See existing commands for examples
-
-### Configure Notifications [Claude Code only]
-
-- Edit `.claude/tools/notify.sh` for custom messages
-- Adjust notification triggers in settings
-- Add sound alerts if desired
-
-### Extend Automation [Claude Code only]
-
-In `.claude/settings.json`:
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "YourCustomTool",
-        "hooks": [{ "command": "your-script.sh" }]
-      }
-    ]
-  }
-}
-```
-
-## 📚 Learn More
-
-### Deep Dives
-
-- [Command Reference](.ai/docs/commands.md) - All commands explained
-- [Automation Guide](.ai/docs/automation.md) - Hooks and quality checks
-- [Context Management](.ai/docs/ai-context.md) - Feeding AI effectively
-- [Philosophy Guide](.ai/docs/philosophy.md) - Why this approach works
-
-## 🚀 Start Your Journey
-
-You're 5 minutes away from developing at a new level. Your creativity, amplified by AI, guided by philosophy, and backed by automation.
-
-**The future of development isn't about AI replacing developers.**
-**It's about developers achieving what was previously impossible.**
-
-Welcome to AI-amplified development. Let's build something amazing.
-
----
-
-Made with ❤️ by developers, for developers
-
-Star this repo if it helps you build faster
+[License information here]

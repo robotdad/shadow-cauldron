@@ -42,8 +42,7 @@ def format_size(size_bytes):
     # Format with 2 decimal places if not bytes
     if unit_index == 0:
         return f"{size_bytes} {units[unit_index]}"
-    else:
-        return f"{size_bytes:.2f} {units[unit_index]}"
+    return f"{size_bytes:.2f} {units[unit_index]}"
 
 
 def main():

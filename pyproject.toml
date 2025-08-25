@@ -1,26 +1,43 @@
 [project]
-name = "workspace"
+name = "shadow-cauldron"
 version = "0.1.0"
-description = "Workspace project"
+description = "Shadow Cauldron - AI Experimentation Platform"
 requires-python = ">=3.11"
-
-[tool.uv.workspace]
-# Add all projects in the workspace
-members = []
-
-[tool.uv.sources]
-# Example: my-project = { workspace = true }
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.13.0",
+    "aiosqlite>=0.19.0",  # SQLite async driver for development
+    "httpx>=0.25.0",    # HTTP client for external APIs
+    "python-multipart>=0.0.6",  # For file uploads
+    "python-jose[cryptography]>=3.3.0",  # JWT handling
+    "passlib[bcrypt]>=1.7.4",  # Password hashing
+    "structlog>=23.2.0",  # Structured logging
+]
 
 [dependency-groups]
 dev = [
-    "build>=1.2.2.post1",
-    "debugpy>=1.8.14",
-    "playwright>=1.54.0",
-    "pyright>=1.1.403",
-    "pytest>=8.3.5",
+    "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
-    "pytest-cov>=6.1.1",
-    "pytest-mock>=3.14.0",
-    "ruff>=0.11.10",
-    "twine>=6.1.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
 ]
+
+[tool.uv.workspace]
+# Shadow Cauldron as workspace member
+members = []
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+extend = "ruff.toml"  # Inherit from workspace ruff config

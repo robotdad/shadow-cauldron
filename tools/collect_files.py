@@ -24,13 +24,12 @@ import fnmatch
 import glob
 import os
 import pathlib
-from typing import List, Optional, Set, Tuple
 
 # Default exclude patterns: common directories and binary files to ignore.
 DEFAULT_EXCLUDE = [".venv", "node_modules", "*.lock", ".git", "__pycache__", "*.pyc", "*.ruff_cache", "logs", "output"]
 
 
-def parse_patterns(pattern_str: str) -> List[str]:
+def parse_patterns(pattern_str: str) -> list[str]:
     """Splits a comma-separated string into a list of stripped patterns."""
     return [p.strip() for p in pattern_str.split(",") if p.strip()]
 
@@ -94,15 +93,13 @@ def match_pattern(path: str, pattern: str, component_matching=False) -> bool:
                 # Match the filename against the pattern
                 return fnmatch.fnmatch(os.path.basename(abs_path), pattern_file)
             return False  # Not under the pattern directory
-        else:
-            # Direct file match
-            return abs_path == resolved_pattern or fnmatch.fnmatch(abs_path, resolved_pattern)
-    else:
-        # Regular pattern without navigation, use relative path matching
-        return fnmatch.fnmatch(path, pattern)
+        # Direct file match
+        return abs_path == resolved_pattern or fnmatch.fnmatch(abs_path, resolved_pattern)
+    # Regular pattern without navigation, use relative path matching
+    return fnmatch.fnmatch(path, pattern)
 
 
-def should_exclude(path: str, exclude_patterns: List[str]) -> bool:
+def should_exclude(path: str, exclude_patterns: list[str]) -> bool:
     """
     Returns True if any component of the path matches an exclude pattern.
     """
@@ -112,7 +109,7 @@ def should_exclude(path: str, exclude_patterns: List[str]) -> bool:
     return False
 
 
-def should_include(path: str, include_patterns: List[str]) -> bool:
+def should_include(path: str, include_patterns: list[str]) -> bool:
     """
     Returns True if the path matches any of the include patterns.
     Handles relative path navigation in include patterns.
@@ -123,7 +120,7 @@ def should_include(path: str, include_patterns: List[str]) -> bool:
     return False
 
 
-def collect_files(patterns: List[str], exclude_patterns: List[str], include_patterns: List[str]) -> List[str]:
+def collect_files(patterns: list[str], exclude_patterns: list[str], include_patterns: list[str]) -> list[str]:
     """
     Collects file paths matching the given patterns, applying exclusion first.
     Files that match an include pattern are added back in.
@@ -170,7 +167,7 @@ def collect_files(patterns: List[str], exclude_patterns: List[str], include_patt
     return sorted(collected)
 
 
-def process_file(file_path: str, collected: Set[str], exclude_patterns: List[str], include_patterns: List[str]) -> None:
+def process_file(file_path: str, collected: set[str], exclude_patterns: list[str], include_patterns: list[str]) -> None:
     """Process a single file"""
     abs_path = os.path.abspath(file_path)
     rel_path = os.path.relpath(file_path)
@@ -183,7 +180,7 @@ def process_file(file_path: str, collected: Set[str], exclude_patterns: List[str
 
 
 def process_directory(
-    dir_path: str, collected: Set[str], exclude_patterns: List[str], include_patterns: List[str]
+    dir_path: str, collected: set[str], exclude_patterns: list[str], include_patterns: list[str]
 ) -> None:
     """Process a directory recursively"""
     for root, dirs, files in os.walk(dir_path):
@@ -201,7 +198,7 @@ def process_directory(
             process_file(full_path, collected, exclude_patterns, include_patterns)
 
 
-def read_file(file_path: str) -> Tuple[str, Optional[str]]:
+def read_file(file_path: str) -> tuple[str, str | None]:
     """
     Read a file and return its content.
 
@@ -216,7 +213,7 @@ def read_file(file_path: str) -> Tuple[str, Optional[str]]:
                 return "[Binary file not displayed]", None
 
         # If not binary, read as text
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             return f.read(), None
     except UnicodeDecodeError:
         # Handle encoding issues
@@ -226,11 +223,11 @@ def read_file(file_path: str) -> Tuple[str, Optional[str]]:
 
 
 def format_output(
-    file_paths: List[str],
+    file_paths: list[str],
     format_type: str,
-    exclude_patterns: List[str],
-    include_patterns: List[str],
-    patterns: List[str],
+    exclude_patterns: list[str],
+    include_patterns: list[str],
+    patterns: list[str],
 ) -> str:
     """
     Format the collected files according to the output format.

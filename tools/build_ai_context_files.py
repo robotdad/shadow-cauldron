@@ -12,11 +12,11 @@ And will be run from the repository root.
 """
 
 import argparse
-import os
-import sys
 import datetime
-import re
+import os
 import platform
+import re
+import sys
 
 OUTPUT_DIR = "ai_context/generated"
 
@@ -111,7 +111,7 @@ def build_context_files(force=False) -> None:
             rel_path = os.path.relpath(file)
             content_body += f"=== File: {rel_path} ===\n"
             try:
-                with open(file, "r", encoding="utf-8") as f:
+                with open(file, encoding="utf-8") as f:
                     content_body += f.read()
             except Exception as e:
                 content_body += f"[ERROR reading file: {e}]\n"
@@ -122,7 +122,7 @@ def build_context_files(force=False) -> None:
         # If file exists and we're not forcing, compare (ignoring only the date)
         if os.path.exists(output) and not force:
             try:
-                with open(output, "r", encoding="utf-8") as f:
+                with open(output, encoding="utf-8") as f:
                     existing_content = f.read()
                 # Strip out date lines from both
                 existing_sanitized = strip_date_line(existing_content).strip()
