@@ -75,38 +75,76 @@ from app.storage import StorageManager, upload_file, get_file, delete_file
 ### Prerequisites
 
 - Python 3.11+
-- PostgreSQL (for production) or SQLite (for development)
-- uv (Python package manager)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) (Python package manager)
+- Git
 
-### Installation
+**Note**: This project uses SQLite by default for development (no additional database setup required). PostgreSQL can be used for production.
+
+### Quick Start
 
 ```bash
-# Clone the repository
-git clone <repository-url>
+# 1. Clone the repository
+git clone https://github.com/robotdad/shadow-cauldron.git
 cd shadow-cauldron
 
-# Install dependencies
+# 2. Install dependencies (creates .venv automatically)
 make install
 
-# Set up environment variables
+# 3. Set up environment (optional for development)
 cp .env.example .env
-# Edit .env with your configuration
+# Edit .env if you need custom settings
 
-# Run database migrations
+# 4. Initialize database
 make migrate
 
-# Start development server
+# 5. Start development server
 make dev
 ```
 
-### Environment Variables
+The application will be available at: **http://localhost:8000**
 
-Required environment variables (prefix with `SC_`):
+- Health check: http://localhost:8000/health
+- API status: http://localhost:8000/api/v1/status  
+- API docs: http://localhost:8000/docs (in debug mode)
 
-- `SC_SECRET_KEY`: Secret key for JWT tokens
-- `SC_DATABASE_URL`: Database connection URL
-- `SC_OPENAI_API_KEY`: OpenAI API key (optional)
-- `SC_ANTHROPIC_API_KEY`: Anthropic API key (optional)
+### Verify Installation
+
+```bash
+# Check health endpoint
+curl http://localhost:8000/health
+# Should return: {"status":"healthy","service":"shadow-cauldron"}
+
+# Run tests
+make test
+# Should show: 3 passed
+
+# Check code quality
+make check
+# Should format and lint code successfully
+```
+
+### Environment Variables (Optional)
+
+The application works out of the box with sensible defaults. Environment variables are prefixed with `SC_`:
+
+**Required for production:**
+- `SC_SECRET_KEY`: Secret key for JWT tokens (defaults to dev key)
+
+**Optional:**
+- `SC_DATABASE_URL`: Database connection URL (defaults to SQLite: `sqlite+aiosqlite:///./shadow_cauldron.db`)
+- `SC_DEBUG`: Enable debug mode (defaults to `false`)
+- `SC_HOST`: Server host (defaults to `0.0.0.0`)
+- `SC_PORT`: Server port (defaults to `8000`)
+- `SC_OPENAI_API_KEY`: OpenAI API key for AI providers
+- `SC_ANTHROPIC_API_KEY`: Anthropic API key for AI providers
+
+**Example `.env` file:**
+```bash
+SC_DEBUG=true
+SC_SECRET_KEY=your-secure-secret-key-here
+SC_OPENAI_API_KEY=your-openai-key
+SC_ANTHROPIC_API_KEY=your-anthropic-key
+```
 
 ### Development
 
@@ -127,15 +165,19 @@ make revision MSG="Add new table"
 make migrate
 ```
 
-### Docker
+### Troubleshooting
 
-```bash
-# Build and run with Docker
-make docker-run
+**Common Issues:**
 
-# Development with Docker Compose
-make docker-dev
-```
+1. **`uv` not found**: Install uv from https://docs.astral.sh/uv/getting-started/installation/
+2. **Permission errors**: Make sure you have write permissions in the project directory
+3. **Port 8000 in use**: Either stop the service using port 8000 or set `SC_PORT=8001` in your `.env`
+4. **Database errors**: Run `make reset-db` to recreate the database from scratch
+
+**Getting Help:**
+- Check the logs when running `make dev`
+- Verify all tests pass with `make test`
+- Ensure code quality with `make check`
 
 ## API Endpoints
 
@@ -194,6 +236,32 @@ When modifying the codebase:
 4. Add tests for new functionality
 5. Update documentation for contract changes
 
+## Current Status
+
+**Phase 1: Foundation ✅ Complete**
+- ✅ Modular architecture with 7 self-contained bricks
+- ✅ FastAPI backend with JWT authentication
+- ✅ SQLite database with migrations
+- ✅ Provider plugin system foundation
+- ✅ Experiment orchestration framework  
+- ✅ Development tools and testing
+
+**Phase 2: AI Provider Integration (Planned)**
+- 🔄 HuggingFace Diffusers integration
+- 🔄 OpenAI and Anthropic providers
+- 🔄 RTX 4080 GPU optimizations
+- 🔄 Parallel experiment execution
+
+## Contributing
+
+Contributions are welcome! When modifying the codebase:
+
+1. Each brick should remain self-contained
+2. Changes to public contracts require updating dependent bricks  
+3. Prefer regenerating entire bricks over line-by-line edits
+4. Add tests for new functionality
+5. Update documentation for contract changes
+
 ## License
 
-[License information here]
+MIT License - see LICENSE file for details.
